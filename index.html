@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"
+  ></script>
+
+
+</head>
+
+</body>
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Viewer Centered</title>
+
+  <model-viewer
+    src="Chairs\2 seater.glb"
+    poster="Images\2 seater Logo.jpg"
+    style="width: 100dvw; height: 90vh"
+    shadow-intensity="5"
+    "
+    
+    ar
+    camera-controls
+    touch-action="pan-y"
+    alt="CRGP AR Chairs"
+    environment-image="Images\studio_small_08_1k.hdr"
+  >
+    <button slot="ar-button" id="ar-button">View in your space</button>
+
+    <button id="ar-failure">AR is not tracking!</button>
+
+    <div class="slider">
+      <div class="slides">
+        <button
+          class="slide selected"
+          onclick="switchSrc(this, '2 seater')"
+          style="background-image: url('Images/2 seater Logo.jpg')"
+        ></button>
+        <button
+          class="slide"
+          onclick="switchSrc(this, '2 seater Wide')"
+          style="background-image: url('Images/2 seater wide.jpg')"
+        ></button>
+        <button
+          class="slide"
+          onclick="switchSrc(this, '3 seater')"
+          style="background-image: url('Images/3 Seater Logo.jpg')"
+        ></button>
+        <button
+          class="slide"
+          onclick="switchSrc(this, '3 seater wide')"
+          style="background-image: url('Images/3 seater wide logo.jpg')"
+        ></button>
+       
+      </div>
+    </div>
+  </model-viewer>
+
+  <script type="module">
+    const modelViewer = document.querySelector("model-viewer");
+
+    window.switchSrc = (element, name) => {
+      const base = "Chairs/" + name;
+      modelViewer.src = base + ".glb";
+      modelViewer.poster = base + ".jpg";
+      const slides = document.querySelectorAll(".slide");
+      slides.forEach((element) => {
+        element.classList.remove("selected");
+      });
+      element.classList.add("selected");
+    };
+
+    document
+      .querySelector(".slider")
+      .addEventListener("beforexrselect", (ev) => {
+        ev.preventDefault();
+      });
+  </script>
+</body>
+  <style>
+    #ar-button {
+      background-repeat: no-repeat;
+      background-size: 20px 20px;
+      background-position: 12px 50%;
+      background-color: #fff;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      bottom: 150px;
+      padding: 0px 16px 0px 40px;
+      font-family: Roboto Regular, Helvetica Neue, sans-serif;
+      font-size: 14px;
+      color: #4285f4;
+      height: 36px;
+      line-height: 36px;
+      border-radius: 18px;
+      border: 1px solid #dadce0;
+    }
+
+    model-viewer {
+      background-image: url("Images/Background.png");
+      background-size: cover; /* Or contain, auto, etc. */
+      background-repeat: no-repeat;
+      justify-content: center;
+    }
+    model-viewer > #ar-failure {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 175px;
+      display: none;
+    }
+
+    model-viewer[ar-tracking="not-tracking"] > #ar-failure {
+      display: block;
+    }
+
+    .slider {
+      width: 100%;
+      text-align: center;
+      overflow: hidden;
+      position: absolute;
+      bottom: 16px;
+      
+    }
+
+    .slides {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      justify-content: center;
+    }
+
+    .slide {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      width: 125px;
+      height: 125px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: #fff;
+      margin-right: 10px;
+      border-radius: 10px;
+      border: none;
+      display: flex;
+    }
+
+    .slide.selected {
+      border: 2px solid #fff700;
+    }
+
+    .slide:focus {
+      outline: none;
+    }
+
+    .slide:focus-visible {
+      outline: 1px solid #fff700;
+    }
+  </style>
+  </Head>
+</html>
